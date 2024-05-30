@@ -80,10 +80,6 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "\nAutor: " + autor + '\'' +
-                //"\nanoNascimento=" + anoNascimento +
-                //"\nanoFalecimento=" + anoFalecimento +
-                //"\nlivros=" + livros +
-                '}';
+        return "\nAutor: " + autor + '\'' ;
     }
 }

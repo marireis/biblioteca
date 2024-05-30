@@ -7,6 +7,7 @@ import com.marina.bibilioteca.repository.LivroRepository;
 import com.marina.bibilioteca.service.ConsumoApi;
 import com.marina.bibilioteca.service.ConverteDados;
 
+import java.time.Year;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -104,17 +105,58 @@ public class Principal {
     }
 
     private void listarLivros() {
+        List<Livro> livros = repository.findAll();
+        livros.forEach(System.out::println);
     }
 
     private void listarAutores() {
+        List<Autor> autores = repository.buscarPorAutor();
+        autores.forEach(System.out::println);
+
     }
 
     private void listarAutoresVivosNoAno() {
+        try {
+            System.out.println("Digite o ano:");
+            int ano = leitura.nextInt();
+            leitura.nextLine();
+
+            List<Autor> autores = repository.buscarAutoresVivosNoAno(Year.of(ano));
+            autores.forEach(System.out::println);
+        }catch (InputMismatchException e){
+            System.out.println("Entrada inválida. Por favor, insira um número inteiro.");
+            leitura.nextLine();
+        }
     }
     private void listarLivrosPorIdioma() {
+        System.out.println("""
+                Digite o idioma para busca
+                es - espanhol
+                en - inglês
+                fr - francês
+                pt - português
+                """);
+        String idioma = leitura.nextLine();
+        List<Livro> livros = repository.findByIdioma(idioma);
+        if (!livros.isEmpty()){
+            livros.forEach(System.out::println);
+        }else{
+            System.out.println("Não exite livros nesse idioma cadastrado");
+        }
     }
 
     private void quantidadeLivrosPorIdioma() {
+        System.out.println("""
+                Digite o idioma para busca
+                es - espanhol
+                en - inglês
+                fr - francês
+                pt - português
+                """);
+        String idioma = leitura.nextLine();
+        Integer quantidadeIdioma = repository.countByIdioma(idioma);
+        System.out.printf("O idioma %s tem %d livros cadastrado\n", idioma, quantidadeIdioma);
+
     }
 
 }
